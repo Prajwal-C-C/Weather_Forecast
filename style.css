@@ -109,6 +109,35 @@ body {
     margin-top: -6px;
 }
 
+
+@media (max-width: 600px) {
+
+    .city {
+        font-size: 35px;
+    }
+
+
+    .temp {
+        font-size: 60px; 
+    }
+
+
+    .details {
+        padding: 0 10px; 
+    }
+
+    .col {
+        flex-direction: column; 
+        text-align: center;
+    }
+
+    .col img {
+        margin-right: 0;
+        margin-bottom: 5px;
+        width: 30px;
+    }
+}
+
 .weather {
     display: none;
 }

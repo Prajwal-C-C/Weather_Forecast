@@ -6,11 +6,12 @@
 }
 
 body {
-    background: #05da3a94;
+    background: #da770573;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* Changed to min-height so it can grow if content is long */
+    padding: 20px;     /* Added padding for mobile screens */
 }
 
 .card {
@@ -43,7 +44,6 @@ body {
     font-size: 18px;
 }
 
-
 .search button {
     border: 0;
     outline: 0;
@@ -71,17 +71,18 @@ body {
     font-weight: 500;
 }
 
-
 .weather h2 {
     font-size: 45px;
     font-weight: 400;
     margin-top: -10px;
 }
 
-.weather h3 {
-    font-size: 28px;
+.status-message {
+    font-size: 20px;
     font-weight: 400;
     margin-top: -10px;
+    color: #ffeb3b; /* Yellow text for status */
+    margin-bottom: 20px;
 }
 
 .details {
@@ -89,7 +90,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .col {
@@ -109,35 +110,90 @@ body {
     margin-top: -6px;
 }
 
+/* --- NEW STYLES FOR FORECAST --- */
 
-@media (max-width: 600px) {
+.forecast-section {
+    margin-top: 40px;
+    text-align: left;
+}
 
-    .city {
-        font-size: 35px;
-    }
+.forecast-section h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
 
+/* Hourly: Horizontal Scroll */
+.hourly-container {
+    display: flex;
+    overflow-x: auto; /* Allows scrolling left/right */
+    gap: 15px;
+    padding-bottom: 10px;
+}
 
-    .temp {
-        font-size: 60px; 
-    }
+/* Hide scrollbar for neatness */
+.hourly-container::-webkit-scrollbar {
+    height: 5px;
+}
+.hourly-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
 
+.hourly-card {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 15px;
+    border-radius: 15px;
+    min-width: 80px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    .details {
-        padding: 0 10px; 
-    }
+.hourly-card img {
+    width: 40px;
+    margin: 5px 0;
+}
 
-    .col {
-        flex-direction: column; 
-        text-align: center;
-    }
+/* Weekly: Vertical List */
+.weekly-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-    .col img {
-        margin-right: 0;
-        margin-bottom: 5px;
-        width: 30px;
-    }
+.weekly-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+
+.weekly-row img {
+    width: 35px;
+}
+
+.error {
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+    background: #ffcccc;
+    color: #ff0000;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .weather {
     display: none;
+}
+
+@media (max-width: 600px) {
+    .city { font-size: 35px; }
+    .temp { font-size: 60px; }
+    .details { padding: 0 10px; }
+    .col { flex-direction: column; text-align: center; }
+    .col img { margin-right: 0; margin-bottom: 5px; width: 30px; }
 }

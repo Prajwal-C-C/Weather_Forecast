@@ -50,42 +50,38 @@ async function getForecast(city) {
 // --- NEW LOGIC HERE ---
 
 function showHourly() {
-
+    // 1. Highlight the correct tab
     document.querySelectorAll(".tab-btn")[0].classList.add("active");
     document.querySelectorAll(".tab-btn")[1].classList.remove("active");
 
+    // 2. Get the current time
     const now = new Date();
+    
+    // 3. Filter: Keep only times that are strictly in the FUTURE
+    const next24Hours = globalForecastData.filter(item => {
+        const itemDate = new Date(item.dt_txt);
+        
+        // STRICT CHECK: The forecast time must be AFTER the current time.
+        // If it's 6:15 PM, the 6:00 PM slot (18:00) is in the past, so it's removed.
+        // The first item will be 9:00 PM (21:00).
+        return itemDate > now; 
+    });
 
-    // Get current hour
-    const currentHour = now.getHours();
-
-    // Find next 3-hour rounded time
-    const nextRoundedHour = Math.ceil(currentHour / 3) * 3;
-
-    // Create new Date object for next rounded slot
-    const nextSlotTime = new Date(now);
-    nextSlotTime.setHours(nextRoundedHour, 0, 0, 0);
-
-    const nextSlotTimestamp = nextSlotTime.getTime();
-
-    // Filter forecast data starting from next rounded slot
-    const hourlyData = globalForecastData.filter(item => {
-        const forecastTime = item.dt * 1000;
-        return forecastTime >= nextSlotTimestamp;
-    }).slice(0, 8);  // take next 8 slots
-
+    // 4. Slice: Take the next 8 items from that future list
+    const hourlyData = next24Hours.slice(0, 8);
+    
+    // 5. Render List
     forecastList.innerHTML = "";
-
+    
+    // Handle edge case where no data is left (end of 5-day list)
     if (hourlyData.length === 0) {
         forecastList.innerHTML = "<p class='placeholder-text'>No upcoming hourly data available.</p>";
         return;
     }
 
     hourlyData.forEach(item => {
-
-        const dateObj = new Date(item.dt * 1000);
-        const time = dateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-
+        // Format time nicely (e.g., "9:00 PM")
+        const time = new Date(item.dt_txt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
         const temp = Math.round(item.main.temp) + "°C";
         const desc = item.weather[0].description;
         const icon = item.weather[0].icon;
@@ -98,11 +94,9 @@ function showHourly() {
                 <p class="item-temp">${temp}</p>
             </div>
         `;
-
         forecastList.innerHTML += html;
     });
 }
-
 
 function showWeekly() {
     // UI: Toggle Active Tab

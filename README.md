@@ -1,4 +1,4 @@
-# Weather App
+# Weather Forecast
 This is a simple weather application built using HTML, CSS, and JavaScript.
 The app allows users to search for a city and view its current weather details like temperature, humidity, and wind speed.
 I created this project to improve my frontend development skills and to understand how APIs work in real-world applications.
